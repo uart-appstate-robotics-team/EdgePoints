@@ -1,3 +1,4 @@
+import imutils
 import cv2
 import numpy as nP
 
@@ -72,8 +73,10 @@ def line_check(i,j,edge,check,lines,lno):
 
 #print(checked)
 
-def generate_edgepoints(img):
-    edges = cv2.Canny(img,200,250)
+def generate_edgepoints(edges):
+    cv2.imwrite('./edges.png', edges)
+    edges = cv2.flip(edges, 0)
+    edges = imutils.rotate_bound(edges, 90)
 
     checked = [ [False for x in edges[0]] for x in edges]
     lineno = 0
