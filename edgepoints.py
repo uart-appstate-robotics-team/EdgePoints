@@ -3,7 +3,7 @@ import cv2
 import numpy as nP
 
 def line_check(i,j,edge,check,lines,lno):
-    if i-1 >= 0 and j-1 >=0:
+    if i-1 >= 0 and j-1 >= 0:
         if  edge[i-1][j-1] > 0 and check[i-1][j-1] == False:
             check[i-1][j-1] = True
             coord = (i,j)
@@ -11,9 +11,10 @@ def line_check(i,j,edge,check,lines,lno):
             line_check(i-1,j-1,edge,check,lines,lno)
         else:
             check[i-1][j-1] = True
+
     if i-1 >= 0:
         if edge[i-1][j] > 0 and check[i-1][j] == False:
-            check[i-1][j-1] = True
+            check[i-1][j] = True
             coord = (i,j)
             lines[lno].append(coord)
             line_check(i-1,j,edge,check,lines,lno)
@@ -75,9 +76,6 @@ def line_check(i,j,edge,check,lines,lno):
 
 def generate_edgepoints(edges):
     cv2.imwrite('./edges.png', edges)
-    edges = cv2.flip(edges, 0)
-    edges = imutils.rotate_bound(edges, 90)
-
     checked = [ [False for x in edges[0]] for x in edges]
     lineno = 0
     lines = [[]]
@@ -92,3 +90,5 @@ def generate_edgepoints(edges):
                     checked[i][j] = True
     del lines[-1]
     return lines
+
+
